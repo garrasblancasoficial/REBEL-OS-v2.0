@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REBEL-OS 2.0 | Garras Blancas</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --win-gray: #c0c0c0;
+            --win-blue: #000080;
+            --desktop-teal: #008080;
+        }
+
+        body, html {
+            margin: 0; padding: 0; height: 100%;
+            background-color: var(--desktop-teal);
+            font-family: 'Tahoma', sans-serif;
+            overflow: hidden;
+        }
+
+        /* --- PANTALLA DE INICIO (BOOT) --- */
+        #boot-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; color: #00ff00; /* Verde Matrix */
+            font-family: 'VT323', monospace; padding: 50px;
+            z-index: 10000; box-sizing: border-box;
+        }
+
+        .log-line { margin-bottom: 5px; font-size: 1.4rem; }
+
+        .loading-container {
+            width: 350px; height: 25px; border: 2px solid #00ff00;
+            margin-top: 30px; position: relative;
+        }
+
+        #progress-bar {
+            width: 0%; height: 100%; background: #00ff00;
+            transition: width 0.1s linear;
+        }
+
+        /* --- ESCRITORIO REBEL-OS --- */
+        .window {
+            width: 450px; background: var(--win-gray);
+            border: 2px solid; border-color: #fff #0a0a0a #0a0a0a #fff;
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%); padding: 3px;
+            display: none; /* Se activa al final */
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.5);
+        }
+
+        .title-bar {
+            background: var(--win-blue); color: white;
+            padding: 4px 10px; font-weight: bold;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .content {
+            background: #fff; margin: 2px; border: 1px solid #000;
+            padding: 25px; text-align: center; color: #000;
+        }
+
+        .btn-win {
+            background: var(--win-gray); border: 2px solid;
+            border-color: #fff #0a0a0a #0a0a0a #fff;
+            padding: 8px 25px; font-weight: bold; cursor: pointer;
+        }
+
+        .btn-win:active { border-color: #0a0a0a #fff #fff #0a0a0a; }
+
+        .taskbar {
+            position: absolute; bottom: 0; width: 100%; height: 35px;
+            background: var(--win-gray); border-top: 2px solid #fff;
+            display: flex; align-items: center; padding-left: 5px;
+        }
+    </style>
+</head>
+<body onload="iniciarSistema()">
+
+    <div id="boot-screen">
+        <div class="log-line">REBEL-OS VERSION 2.0 (MARZO 2026)</div>
+        <div class="log-line">LOADER... OK</div>
+        <div class="log-line">CONECTANDO AL BÚNKER DE MINECRAFT... OK</div>
+        <div class="log-line">IDENTIDAD CONFIRMADA: SAÚL REBELDE</div>
+        <div class="log-line">> CARGANDO NÚCLEO GARRAS BLANCAS...</div>
+        
+        <div class="loading-container">
+            <div id="progress-bar"></div>
+        </div>
+        <div id="status-text" style="font-size: 1.2rem; margin-top: 10px;">0% COMPLETADO</div>
+    </div>
+
+    <div class="window" id="main-win">
+        <div class="title-bar">
+            <span>Terminal de Control - REBEL-OS</span>
+            <div style="cursor:pointer" onclick="alert('Acceso restringido')">[X]</div>
+        </div>
+        <div class="content">
+            <img src="https://cdn-icons-png.flaticon.com/512/2267/2267718.png" width="50" style="margin-bottom:10px;">
+            <h2>¡SISTEMA OPERATIVO LISTO!</h2>
+            <p>Bienvenido, Comandante Saúl.</p>
+            <p>El búnker de las Garras Blancas está bajo tu control.</p>
+            <br>
+            <button class="btn-win" onclick="confirmar()">INICIAR REBELIÓN</button>
+        </div>
+    </div>
+
+    <div class="taskbar">
+        <div class="btn-win" style="padding: 2px 10px;">Inicio</div>
+    </div>
+
+    <script>
+        function iniciarSistema() {
+            let bar = document.getElementById('progress-bar');
+            let txt = document.getElementById('status-text');
+            let load = 0;
+
+            let interval = setInterval(() => {
+                load += Math.floor(Math.random() * 5) + 1;
+                if (load >= 100) {
+                    load = 100;
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        document.getElementById('boot-screen').style.display = 'none';
+                        document.getElementById('main-win').style.display = 'block';
+                    }, 800);
+                }
+                bar.style.width = load + "%";
+                txt.innerText = load + "% COMPLETADO";
+            }, 100);
+        }
+
+        function confirmar() {
+            alert("¡Protocolo activado! Mañana nos vemos en el estreno.");
+        }
+    </script>
+
+</body>
+</html>
